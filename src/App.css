@@ -1,0 +1,11 @@
+#card{
+    width: 300px;
+    display: inline-block;
+    margin-left: 5px;
+    margin-top: 5px;
+    background-color: rgb(206, 254, 238);
+}
+#notcompleted{
+    background-color: red;
+
+}

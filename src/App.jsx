@@ -1,10 +1,7 @@
 import { useState } from 'react';
-import reactLogo from './assets/react.svg';
-import viteLogo from '/vite.svg';
 import './App.css';
 
 function App() {
-  const [count, setCount] = useState(0);
   const [todos, setTodos] = useState([]);
   const [todoName, setTodoName] = useState('');
   const [todoDescription, setTodoDescription] = useState('');
@@ -45,6 +42,10 @@ function App() {
     setTodos(updatedTodos);
   };
 
+  const handleFilterChange = (newFilter) => {
+    setFilter(newFilter);
+  };
+
   const filteredTodos = todos.filter((todo) => {
     if (filter === 'All') return true;
     return todo.status === filter;
@@ -77,18 +78,30 @@ function App() {
       </div>
 
       <div className="d-flex justify-content-between">
-        <h5 className='inline'>My Todos</h5>
+        <h5 className='inline mx-3 mt-4'>My Todos</h5>
         <div className="d-flex align-items-center">
-          <h5 className='inline right'>Status Filter:</h5>
-          <div class="dropdown inline right">
+          <h5 className='inline right mx-3 mt-4'>Status Filter:</h5>
+          <div className="custom-dropdown inline right mt-4">
             <select
-              className="form-control"
+              className={`form-control ${
+                filter === 'All'
+                  ? 'bg-danger text-white'
+                  : filter === 'Completed'
+                  ? 'bg-success text-white'
+                  : 'bg-danger'
+              }`}
               value={filter}
-              onChange={(e) => setFilter(e.target.value)}
+              onChange={(e) => handleFilterChange(e.target.value)}
             >
-              <option value="All">All</option>
-              <option value="Completed">Completed</option>
-              <option value="Not Completed">Not Completed</option>
+              <option value="All" className="bg-danger">
+                All
+              </option>
+              <option value="Completed" className="bg-success">
+                Completed
+              </option>
+              <option value="Not Completed" className="bg-danger">
+                Not Completed
+              </option>
             </select>
           </div>
         </div>
@@ -96,15 +109,18 @@ function App() {
 
       <div>
         {filteredTodos.map((todo, index) => (
-          <div className="card" key={index}>
+          <div className="card" id='card' key={index}>
             <div className="card-body">
               <h5 className="card-title">Name: {todo.name}</h5>
               <p className="card-text">Description: {todo.description}</p>
               <div className="form-group">
-                <label>Status:</label>
                 {editIndex === index ? (
                   <select
-                    className="form-control"
+                    className={`form-control ${
+                      todo.status === 'Not Completed'
+                        ? 'bg-danger'
+                        : 'bg-success'
+                    }`}
                     value={todo.status}
                     onChange={(e) => handleStatusChange(index, e.target.value)}
                   >
@@ -113,30 +129,43 @@ function App() {
                   </select>
                 ) : (
                   <div>
-                    {todo.status}
-                    <br />
-                    <button
-                      className="btn btn-warning mt-2"
-                      onClick={() => handleEditStatus(index)}
+                    <label>Status:</label>
+                    <span
+                      className={`badge ${
+                        todo.status === 'Not Completed'
+                          ? 'bg-danger'
+                          : 'bg-success'
+                      } mx-2`}
                     >
-                      Edit
-                    </button>
-                    <button
-                      className="btn btn-primary mt-2 mx-2"
-                      onClick={() => handleDeleteTodo(index)}
-                    >
-                      Delete
-                    </button>
+                      {todo.status}
+                    </span>
                   </div>
                 )}
-                {editIndex === index && (
-                  <button
-                    className="btn btn-success mt-2"
-                    onClick={handleSaveEdit}
-                  >
-                    Save
-                  </button>
-                )}
+                <div>
+                  {editIndex === index ? (
+                    <button
+                      className="btn btn-success mt-2"
+                      onClick={handleSaveEdit}
+                    >
+                      Save
+                    </button>
+                  ) : (
+                    <div>
+                      <button
+                        className="btn btn-success mx-4 mt-4"
+                        onClick={() => handleEditStatus(index)}
+                      >
+                        Edit
+                      </button>
+                      <button
+                        className="btn btn-danger mt-4"
+                        onClick={() => handleDeleteTodo(index)}
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           </div>

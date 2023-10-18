@@ -1,11 +1,8 @@
 #card{
-    width: 300px;
+    width: 325px;
+    height: 210px;
     display: inline-block;
-    margin-left: 5px;
+    margin-left: 10px;
     margin-top: 5px;
     background-color: rgb(206, 254, 238);
-}
-#notcompleted{
-    background-color: red;
-
 }

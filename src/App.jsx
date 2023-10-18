@@ -78,10 +78,10 @@ function App() {
       </div>
 
       <div className="d-flex justify-content-between">
-        <h5 className='inline mx-3 mt-4'>My Todos</h5>
+        <h5 className='mx-3 mt-4'>My Todos</h5>
         <div className="d-flex align-items-center">
-          <h5 className='inline right mx-3 mt-4'>Status Filter:</h5>
-          <div className="custom-dropdown inline right mt-4">
+          <h5 className='mx-3 mt-4'>Status Filter:</h5>
+          <div className="custom-dropdown  mt-4">
             <select
               className={`form-control ${
                 filter === 'All'

@@ -1,88 +1,171 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+import './App.css';
 
 function App() {
-  const [name, setName] = useState('');
-  const [description, setDescription] = useState('');
-  const [Todo, setTodo] = useState([]);
-  const [selectedValue, setSelectedValue] = useState('ALL'); // Added initial value for selected status
+  const [todos, setTodos] = useState([]);
+  const [todoName, setTodoName] = useState('');
+  const [todoDescription, setTodoDescription] = useState('');
+  const [filter, setFilter] = useState('All');
+  const [editIndex, setEditIndex] = useState(null);
 
   const handleAddTodo = () => {
-    const newTodo = {
-      Name: name,
-      Description: description,
-      Status: 'Not Completed',
-    };
-    setTodo([...Todo, newTodo]);
-    setName('');
-    setDescription('');
-  };
+    if (todoName && todoDescription) {
+      const newTodo = {
+        name: todoName,
+        description: todoDescription,
+        status: 'Not Completed',
+      };
 
-  const handleSelectChange = (index, value) => {
-    const updatedTodoList = [...Todo];
-    updatedTodoList[index].Status = value;
-    setTodo(updatedTodoList);
-  };
-
-  const filteredTodo = Todo.filter((todo) => {
-    if (selectedValue === 'ALL') {
-      return true;
+      setTodos([...todos, newTodo]);
+      setTodoName('');
+      setTodoDescription('');
     }
-    return todo.Status === selectedValue;
+  };
+
+  const handleStatusChange = (index, newStatus) => {
+    const updatedTodos = [...todos];
+    updatedTodos[index].status = newStatus;
+    setTodos(updatedTodos);
+  };
+
+  const handleEditStatus = (index) => {
+    setEditIndex(index);
+  };
+
+  const handleSaveEdit = () => {
+    setEditIndex(null);
+  };
+
+  const handleDeleteTodo = (index) => {
+    const updatedTodos = [...todos];
+    updatedTodos.splice(index, 1);
+    setTodos(updatedTodos);
+  };
+
+  const handleFilterChange = (newFilter) => {
+    setFilter(newFilter);
+  };
+
+  const filteredTodos = todos.filter((todo) => {
+    if (filter === 'All') return true;
+    return todo.status === filter;
   });
 
   return (
     <div>
-      <h1 className='text-center m-5'>My TODO</h1>
       <div>
+        <h3 className='text-center text-success'>My Todo</h3>
         <input
-          placeholder='Enter name'
-          name='inpName'
-          id='nameInp'
-          style={{ marginLeft: '10px' }}
-          value={name}
-          onChange={(e) => setName(e.target.value)}
+          id='name'
+          className='mx-4 mt-4 border border-success'
+          placeholder='Todo Name'
+          value={todoName}
+          onChange={(e) => setTodoName(e.target.value)}
         />
         <input
-          placeholder='Enter Description'
-          name='inpDescription'
-          id='inpDescription'
-          style={{ marginLeft: '10px' }}
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
+          id='description'
+          className='mx-4 border border-success'
+          placeholder='Todo Description'
+          value={todoDescription}
+          onChange={(e) => setTodoDescription(e.target.value)}
         />
-        <button style={{ marginLeft: '10px' }} onClick={handleAddTodo}>
+        <button
+          className='mb-2 mx-4 btn btn-success btn btn-primary btn-sm'
+          onClick={handleAddTodo}
+        >
           Add Todo
         </button>
-        <select
-          style={{ marginLeft: '10px' }}
-          value={selectedValue}
-          onChange={(e) => setSelectedValue(e.target.value)}
-          className={selectedValue==='Completed'?'bg-success':'bg-danger'}
-        >
-          <option value='ALL'>ALL</option>
-          <option value='Completed'>Completed</option>
-          <option value='Not Completed'>Not Completed</option>
-        </select>
       </div>
 
-      <h1 className='mx-3 mt-3 mb-4'>Status</h1>
-      <div className='row mx-3'>
-        {filteredTodo.map((todo, index) => (
-          <div className='col-lg-4 col-md-2 col-sm-5' key={index}>
-            <div className='card'>
-              <h3><b>Name: </b>{todo.Name}</h3>
-              <h3><b>Description: </b>{todo.Description}</h3>
-              <div style={{ display: 'flex', alignItems: 'center' }}>
-                <h3>Status</h3>
-                <select
-                  style={{ marginLeft: '10px' }}
-                  className={todo.Status === 'Not Completed' ? 'bg-danger' : 'bg-success'}
-                  onChange={(e) => handleSelectChange(index, e.target.value)}
-                  value={todo.Status}
-                >
-                  <option>Not Completed</option>
-                  <option>Completed</option>
-                </select>
+      <div className="d-flex justify-content-between">
+        <h5 className='mx-3 mt-4'>My Todos</h5>
+        <div className="d-flex align-items-center">
+          <h5 className='mx-3 mt-4'>Status Filter:</h5>
+          <div className="custom-dropdown  mt-4">
+            <select
+              className={`form-control ${
+                filter === 'All'
+                  ? 'bg-danger text-white'
+                  : filter === 'Completed'
+                  ? 'bg-success text-white'
+                  : 'bg-danger'
+              }`}
+              value={filter}
+              onChange={(e) => handleFilterChange(e.target.value)}
+            >
+              <option value="All" className="bg-danger">
+                All
+              </option>
+              <option value="Completed" className="bg-success">
+                Completed
+              </option>
+              <option value="Not Completed" className="bg-danger">
+                Not Completed
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        {filteredTodos.map((todo, index) => (
+          <div className="card" id='card' key={index}>
+            <div className="card-body">
+              <h5 className="card-title">Name: {todo.name}</h5>
+              <p className="card-text">Description: {todo.description}</p>
+              <div className="form-group">
+                {editIndex === index ? (
+                  <select
+                    className={`form-control ${
+                      todo.status === 'Not Completed'
+                        ? 'bg-danger'
+                        : 'bg-success'
+                    }`}
+                    value={todo.status}
+                    onChange={(e) => handleStatusChange(index, e.target.value)}
+                  >
+                    <option value="Not Completed">Not Completed</option>
+                    <option value="Completed">Completed</option>
+                  </select>
+                ) : (
+                  <div>
+                    <label>Status:</label>
+                    <span
+                      className={`badge ${
+                        todo.status === 'Not Completed'
+                          ? 'bg-danger'
+                          : 'bg-success'
+                      } mx-2`}
+                    >
+                      {todo.status}
+                    </span>
+                  </div>
+                )}
+                <div>
+                  {editIndex === index ? (
+                    <button
+                      className="btn btn-success mt-2"
+                      onClick={handleSaveEdit}
+                    >
+                      Save
+                    </button>
+                  ) : (
+                    <div>
+                      <button
+                        className="btn btn-success mx-4 mt-4"
+                        onClick={() => handleEditStatus(index)}
+                      >
+                        Edit
+                      </button>
+                      <button
+                        className="btn btn-danger mt-4"
+                        onClick={() => handleDeleteTodo(index)}
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           </div>

@@ -15,3 +15,7 @@ input,textarea{
 #mynotes{
     width: 250px;
 }
+
+#addnote{
+    background-color: aliceblue;
+}

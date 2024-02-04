@@ -13,13 +13,11 @@ function App() {
     e.preventDefault();
     if (content.title && content.description) {
       if (editIndex !== null) {
-        // Editing existing note
         const updatedNotes = [...notes];
         updatedNotes[editIndex] = { Title: content.title, Description: content.description };
         setNotes(updatedNotes);
         setEditIndex(null);
       } else {
-        // Adding a new note
         const newNote = { Title: content.title, Description: content.description };
         setNotes([...notes, newNote]);
       }
@@ -28,7 +26,6 @@ function App() {
   };
 
   const handleEdit = (index) => {
-    // Set the content and activate editing mode
     setContent({
       title: notes[index].Title,
       description: notes[index].Description
@@ -43,12 +40,12 @@ function App() {
   };
 
   const handleUpdate = () => {
-    handleSubmit({ preventDefault: () => {} }); // Trigger the submit for update
+    handleSubmit({ preventDefault: () => {} });
   };
 
   return (
     <div className='container-f '>
-      <div className='m-4 container rounded-3 d-flex flex-column bg-light'>
+      <div className='mt-5 container rounded-3 d-flex flex-column bg-light mx-auto'>
         <form className='d-flex flex-column' onSubmit={handleSubmit}>
           <h1 className='text-center mt-3'>{editIndex !== null ? 'Edit Note' : 'Add a Note'}</h1>
           <input
@@ -66,13 +63,13 @@ function App() {
             value={content.description}
             onChange={(e) => setContent({ ...content, description: e.target.value })}
           />
-          <button id='btn' onClick={handleSubmit} className='rounded-2 mx-auto mb-3'>
+          <button id='btn' onClick={handleSubmit} className='rounded-2 mx-auto mb-3 bg-success text-white mt-2'>
             {editIndex !== null ? 'Update Note' : 'Add Note'}
           </button>
         </form>
       </div>
       
-      <div className='d-flex flex-wrap'>
+      <div className={`d-flex flex-wrap mt-5 ${notes.length > 2 ? 'justify-content-around' : 'mx-3'}`}>
       {notes.map((note, index) => (
         <div key={index} id='mynotes' className='m-4 container rounded-3 d-flex flex-column bg-light'>
           <div className='title-container d-flex justify-content-between align-items-center'>
@@ -131,7 +128,7 @@ function App() {
                 value={content.description}
                 onChange={(e) => setContent({ ...content, description: e.target.value })}
               />
-              <button id='btn' onClick={handleUpdate} className='rounded-2 mx-auto mb-3'>
+              <button id='btn' onClick={handleUpdate} className='rounded-2 mx-auto mb-3 bg-secondary text-white'>
                 Update Note
               </button>
             </>

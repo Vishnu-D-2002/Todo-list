@@ -36,14 +36,14 @@ function ResetPassword() {
         <div className="col-md-6">
           <div className="card">
             <div className="card-header">
-              <h1 className="text-center">
+              <h3 className="text-center">
                 Enter the New Password to reset your old Password
-              </h1>
+              </h3>
             </div>
             <div className="card-body">
               <form onSubmit={handleNewPassword}>
                 <div className="form-group">
-                  <label htmlFor="newPassword" className="m-2">
+                  <label htmlFor="newPassword" className="m-2 fs-5">
                     <strong>New Password:</strong>
                   </label>
                   <input

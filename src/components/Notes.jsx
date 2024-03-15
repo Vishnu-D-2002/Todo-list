@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import "../App.css";
-import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Navlink from "./Navbar/Navbar";
+import { authInstance } from "../services/instance";
 
 function Notes() {
   const [notes, setNotes] = useState([]);
@@ -17,8 +17,8 @@ function Notes() {
   }, []);
 
   const fetchNotes = () => {
-    axios
-      .get(`http://localhost:3000/notes/user/${id}`)
+    authInstance
+      .get(`/notes/user/${id}`)
       .then((response) => setNotes(response.data))
       .catch((error) => console.error("Error fetching notes:", error));
   };
@@ -27,8 +27,8 @@ function Notes() {
     e.preventDefault();
     if (content.title && content.description) {
       if (editIndex !== null) {
-        axios
-          .put(`http://localhost:3000/notes/${notes[editIndex]._id}`, content)
+        authInstance
+          .put(`/notes/${notes[editIndex]._id}`, content)
           .then((response) => {
             const updatedNotes = [...notes];
             updatedNotes[editIndex] = response.data;
@@ -39,8 +39,8 @@ function Notes() {
           })
           .catch((error) => console.error("Error updating note:", error));
       } else {
-        axios
-          .post("http://localhost:3000/notes", {...content,userId:id})
+        authInstance
+          .post("/notes", {...content,userId:id})
           .then((response) => {
             setNotes([...notes, response.data]);
             setContent({ title: "", description: "" });
@@ -58,8 +58,8 @@ function Notes() {
   };
 
   const handleDelete = (id) => {
-    axios
-      .delete(`http://localhost:3000/notes/${id}`)
+    authInstance
+      .delete(`/notes/${id}`)
       .then(() => {
         const filteredNotes = notes.filter((note) => note._id !== id);
         setNotes(filteredNotes);
@@ -81,11 +81,12 @@ function Notes() {
           </h1>
           <input
             type="text"
-            placeholder="Title"
+            placeholder="Title..."
             className="form-control m-2"
             ref={inpref}
             value={content.title}
             onChange={(e) => setContent({ ...content, title: e.target.value })}
+            style={{ border: "2px solid" }}
           />
           <textarea
             type="text"
@@ -96,6 +97,7 @@ function Notes() {
             onChange={(e) =>
               setContent({ ...content, description: e.target.value })
             }
+            style={{ border: "2px solid" }}
           />
           <button
             id="btn"

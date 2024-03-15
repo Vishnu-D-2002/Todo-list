@@ -10,7 +10,7 @@ function EmailSend() {
     try {
       e.preventDefault();
 
-      const email = JSON.parse(sessionStorage.getItem('User')).user.email;
+      // const email = JSON.parse(sessionStorage.getItem('User')).user.email;
       
       const mail = await authInstance.post("/reset-password", { email });
 

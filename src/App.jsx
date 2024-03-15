@@ -14,13 +14,12 @@ const App = () => {
         <Routes>
           <Route path="/notes" element={<Notes />} />
           <Route path="/" element={<Login />} />
-          <Route path="/emailSend" element={<EmailSend />} />
+          <Route path="/reset-email" element={<EmailSend />} />
           <Route
             path="/resetPassword/:randomString"
             element={<ResetPassword />}
           />
           <Route path="/activate/:activationToken" element={<Active />} />
-          <Route path="/password-reset" element={<PasswordReset />} />
         </Routes>
       </div>
     </Router>

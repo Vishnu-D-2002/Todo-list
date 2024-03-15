@@ -22,7 +22,7 @@ function Navlink() {
             <Link to="/notes">Notes</Link>
           </li>
           <li>
-            <Link to="/password-reset">Change password</Link>
+            <Link to="/reset-email">Change password</Link>
           </li>
           <li>
             <button onClick={handlelogout}>

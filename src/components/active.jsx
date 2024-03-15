@@ -14,7 +14,7 @@ function Active() {
 
     if (match) {
       const activationToken = match;
-      console.log(activationToken);
+      // console.log(activationToken);
       try {
         setLoading(true);
 
@@ -22,18 +22,18 @@ function Active() {
         setLoading(false);
 
         if (res.data) {
-          console.log("Activation successful:", res.data);
+          // console.log("Activation successful:", res.data);
           setInfo(res.data.message);
         } else {
-          console.error("No data received in the response");
+          // console.error("No data received in the response");
           setInfo("Error occurred during activation");
         }
       } catch (error) {
-        console.error("Error occurred during activation", error);
+        // console.error("Error occurred during activation", error);
         setInfo("Error occurred during activation");
       }
     } else {
-      console.error("URL format doesn't match the expected pattern");
+      // console.error("URL format doesn't match the expected pattern");
       setInfo("Invalid activation link");
     }
   };

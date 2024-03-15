@@ -1,5 +1,5 @@
 import axios from "axios";
-const baseURL = "http://localhost:3000";
+const baseURL = "https://todo-list-be-p0qx.onrender.com/";
 
 const authInstance = axios.create({
   baseURL: baseURL,

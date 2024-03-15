@@ -4,7 +4,6 @@ import Login from "./components/login";
 import Active from "./components/active";
 import ResetPassword from "./components/ResetPassword";
 import EmailSend from "./components/EmailSend";
-import PasswordReset from "./components/passwordreset";
 import Notes from "./components/Notes";
 
 const App = () => {

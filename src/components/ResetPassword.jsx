@@ -27,6 +27,7 @@ function ResetPassword() {
       setNewPassword("");
       navigate("/");
     } catch (error) {
+      setLoading(false);
       console.error("Error is Changing Password :", error);
     }
   };

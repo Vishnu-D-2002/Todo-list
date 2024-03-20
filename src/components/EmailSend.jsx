@@ -25,6 +25,7 @@ function EmailSend() {
     } catch (error) {
       // console.error('Error in sending mail', error);
       setMessage("Error in sending mail");
+      setLoading(false);
     }
   };
 

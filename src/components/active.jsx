@@ -35,6 +35,7 @@ function Active() {
     } else {
       // console.error("URL format doesn't match the expected pattern");
       setInfo("Invalid activation link");
+      setLoading(false);
     }
   };
 

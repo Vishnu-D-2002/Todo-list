@@ -80,6 +80,7 @@ const Login = () => {
         }
       }
     } catch (error) {
+      setLoading(false);
       return setMsg("Error While SigningUp", error);
     }
   };
@@ -113,6 +114,7 @@ const Login = () => {
         password: "",
       });
     } catch (e) {
+      setLoading(false);
       console.log("Error in signin", e);
     }
   };
